@@ -1,27 +1,28 @@
 declare module "coquette" {
-  export class Game {
-    constructor()
-    update(dt: number): void;
+  export interface Game {
+    update?(dt: number): void;
   }
 
-  type Coordinates = {
+  export type Coordinates = {
     x: number;
     y: number;
   };
 
+  // these should be kept in sync with the constants defined in Coquette:
+  // https://github.com/maryrosecook/coquette/blob/master/src/collider.js#L81-L82
   export enum BoundingBox {
-    Rectangle,  // 0
-    Circle,     // 1
+    Rectangle = 0,
+    Circle    = 1,
   }
 
-  export class Entity<Settings> {
+  export interface Entity<P> {
     game: Game;
     center: Coordinates;
     size: Coordinates;
-    angle: number;
-    zindex: number;
+    angle?: number;
+    zindex?: number;
 
-    boundingBox: BoundingBox;
+    boundingBox?: BoundingBox;
 
     /*
      * Public interface
@@ -36,10 +37,10 @@ declare module "coquette" {
   // Also it doesn't properly check the passed settings for missing fields??? And lets you pass
   // "null"??? So idk wtf
 
-  type ClassType<P, T, C> = C & (new(settings: P) => T);
+  type ClassType<P, T, C> = C & (new(game: Game, settings: P) => T);
 
   interface EntityClass<T, P> {
-    new(settings: P): T;
+    new(game: Game, settings: P): T;
   }
 
   interface Entities {

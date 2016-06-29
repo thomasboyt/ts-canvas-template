@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
-    "coquette": "^0.5.10",
+    "coquette": "git://github.com/thomasboyt/coquette#commonjs",
     "lodash": "^4.13.1",
     "query-string": "^4.2.2"
   }
