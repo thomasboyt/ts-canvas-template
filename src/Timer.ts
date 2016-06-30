@@ -13,7 +13,7 @@ export default class Timer {
   }
 
   get expired(): boolean {
-    var expireIn = this.expireIn;
+    const expireIn = this.expireIn;
 
     if (expireIn == null) {
       return true;

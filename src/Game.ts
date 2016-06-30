@@ -5,7 +5,6 @@ import {
   height,
 } from './constants';
 
-import Block from './entities/Block';
 import Player from './entities/Player';
 import GroundPlane from './entities/GroundPlane';
 import BlockManager from './entities/BlockManager';
@@ -44,7 +43,7 @@ export default class Game implements Coq.Game {
 
     this.player = this.c.entities.create(Player, {
       x: -Player.size.x / 2,
-      y: wireEdge - Player.size.y / 2
+      y: wireEdge - Player.size.y / 2,
     });
 
     this.blockManager.addBlock();

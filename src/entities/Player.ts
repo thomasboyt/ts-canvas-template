@@ -21,11 +21,11 @@ export default class Player implements Coq.Entity {
   game: Game;
   center: Coq.Coordinates;
 
-  static size = {x: 10, y: 10};
-  size = Block.size;
+  static size: Coq.Coordinates = {x: 10, y: 10};
+  size: Coq.Coordinates = Block.size;
 
-  vec = {x: 0, y: 0};
-  grounded = true;
+  vec: Coq.Coordinates = {x: 0, y: 0};
+  grounded: boolean = true;
 
   constructor(game: Game, settings: Settings) {
     this.game = game;

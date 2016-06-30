@@ -14,7 +14,7 @@ interface Settings {
 export default class GroundPlane implements Entity {
   game: Game;
   center: Coordinates;
-  size = {x: width, y: 10};
+  size: Coordinates = {x: width, y: 10};
 
   constructor(game: Game, settings: Settings) {
     this.game = game;

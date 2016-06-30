@@ -12,8 +12,8 @@ export default class Block implements Entity {
   center: Coordinates;
 
   // todo: is there a better way to do this?
-  static size = {x: 10, y: 10};
-  size = Block.size;
+  static size: Coordinates = {x: 10, y: 10};
+  size: Coordinates = Block.size;
 
   constructor(game: Game, settings: Settings) {
     this.game = game;

@@ -16,7 +16,6 @@
     "member-ordering": [
       true,
       "public-before-private",
-      "static-before-instance",
       "variables-before-functions"
     ],
     "no-any": false,
@@ -34,7 +33,7 @@
     "no-internal-module": true,
     "no-require-imports": false,
     "no-shadowed-variable": false,
-    "no-string-literal": true,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,

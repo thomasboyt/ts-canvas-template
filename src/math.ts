@@ -33,19 +33,19 @@ function sidesForBoundingBox(boundingBox: BoundingBox): SidePositions {
     left: boundingBox.center.x - boundingBox.size.x / 2,
     right: boundingBox.center.x + boundingBox.size.x / 2,
     top: boundingBox.center.y - boundingBox.size.y / 2,
-    bottom: boundingBox.center.y + boundingBox.size.y / 2
+    bottom: boundingBox.center.y + boundingBox.size.y / 2,
   };
 }
 
 export function rectangleIntersection(self: BoundingBox, other: BoundingBox): Intersection {
   // returns the size of the intersection between two rectangles as {w, h}
-  var r1 = sidesForBoundingBox(self);
-  var r2 = sidesForBoundingBox(other);
-  var sides = {
+  const r1 = sidesForBoundingBox(self);
+  const r2 = sidesForBoundingBox(other);
+  const sides = {
     left: max(r1.left, r2.left),
     right: min(r1.right, r2.right),
     bottom: min(r1.bottom, r2.bottom),
-    top: max(r1.top, r2.top)
+    top: max(r1.top, r2.top),
   };
 
   return {
@@ -53,13 +53,13 @@ export function rectangleIntersection(self: BoundingBox, other: BoundingBox): In
     w: sides.right - sides.left,
     h: sides.bottom - sides.top,
     fromAbove: sides.top === r2.top,
-    fromLeft: sides.left === r2.left
+    fromLeft: sides.left === r2.left,
   };
 }
 
 export function calcVector(magnitude: number, rad: number): Coordinates {
-  var x = magnitude * Math.cos(rad);
-  var y = magnitude * Math.sin(rad);
+  const x = magnitude * Math.cos(rad);
+  const y = magnitude * Math.sin(rad);
   return { x: x, y: y };
 }
 
