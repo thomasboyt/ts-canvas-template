@@ -5,6 +5,10 @@ import {
   height,
 } from './constants';
 
+import assetCfg from './assets';
+import AssetManager from './lib/AssetManager';
+import AudioManager from './lib/AudioManager';
+
 import Player from './entities/Player';
 import GroundPlane from './entities/GroundPlane';
 import BlockManager from './entities/BlockManager';
@@ -13,12 +17,24 @@ import UI from './entities/UI';
 export default class Game implements Coq.Game {
   c: Coquette;
 
+  assetManager: AssetManager;
+  audioManager: AudioManager;
+
   player: Player;
   groundPlane: GroundPlane;
   blockManager: BlockManager;
 
   constructor() {
     this.c = new Coquette(this, 'canvas', width, height, 'black');
+  }
+
+  async init() {
+    this.audioManager = new AudioManager();
+    this.assetManager = new AssetManager(assetCfg, this.audioManager.ctx);
+
+    await this.assetManager.load();
+
+    this.audioManager.setAudioMap(this.assetManager.assets.audio);
 
     this.groundPlane = this.c.entities.create(GroundPlane, {x: width / 2, y: height / 2});
     const wireEdge = this.groundPlane.center.y - this.groundPlane.size.y / 2;
@@ -30,7 +46,9 @@ export default class Game implements Coq.Game {
   }
 
   update(dt: number) {
-    this.blockManager.update(dt);
+    if (this.blockManager) {
+      this.blockManager.update(dt);
+    }
   }
 
   start() {

@@ -44,6 +44,7 @@ export default class Player implements Coq.Entity {
 
   update(dt: number) {
     if (this.center.x - this.size.x / 2 > width) {
+      this.game.audioManager.play('wah');
       this.game.finished();
       return;
     }

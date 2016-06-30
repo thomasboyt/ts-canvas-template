@@ -57,6 +57,11 @@ module.exports = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(['css']),
       },
+
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+      }
     ]
   },
 
