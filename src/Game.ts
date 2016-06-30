@@ -9,6 +9,7 @@ import Block from './entities/Block';
 import Player from './entities/Player';
 import GroundPlane from './entities/GroundPlane';
 import BlockManager from './entities/BlockManager';
+import UI from './entities/UI';
 
 export default class Game implements Coq.Game {
   c: Coquette;
@@ -26,6 +27,8 @@ export default class Game implements Coq.Game {
     this.blockManager = new BlockManager(this, { bottomEdge: wireEdge });
 
     this.start();
+
+    this.c.entities.create(UI, null);
   }
 
   start() {

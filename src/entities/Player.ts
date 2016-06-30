@@ -3,7 +3,6 @@ import * as Coq from 'coquette';
 import Game from '../Game';
 import Block from './Block';
 import GroundPlane from './GroundPlane';
-import Goal from './Goal';
 
 import {rectangleIntersection} from '../math';
 
@@ -93,7 +92,7 @@ export default class Player implements Coq.Entity {
       } else {
         // Self is colliding with the block from the left
         if (intersect.fromLeft) {
-          this.center.x -= intersect.w;
+          this.game.died();
 
         // Self is colliding with the block from the right
         } else {
