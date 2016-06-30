@@ -1,13 +1,29 @@
 declare module "coquette" {
+
+  /**
+   * The interface for the Game object passed to Coquette.
+   *
+   * Think of this as a top level entity, which can be used to store pseudo-global state. Every
+   * entity has a reference to this object, which can be used to access this state as well as
+   * Coquette's entity and inputter APIs (through `this.game.c`).
+   */
   export interface Game {
+    c: Coquette;
     update?(dt: number): void;
   }
 
+  /**
+   * Used by anything in Coquette that involves coordinates, including entity position/sizing and
+   * mouse coordinates.
+   */
   export type Coordinates = {
     x: number;
     y: number;
   };
 
+  /**
+   * Specifies the collision bounding box to use.
+   */
   // these should be kept in sync with the constants defined in Coquette:
   // https://github.com/maryrosecook/coquette/blob/master/src/collider.js#L81-L82
   export enum BoundingBox {
@@ -15,10 +31,13 @@ declare module "coquette" {
     Circle    = 1,
   }
 
-  export interface Entity<P> {
+  /**
+   * The base interface for entity objects.
+   */
+  export interface Entity {
     game: Game;
-    center: Coordinates;
-    size: Coordinates;
+    center?: Coordinates;
+    size?: Coordinates;
     angle?: number;
     zindex?: number;
 
@@ -27,9 +46,14 @@ declare module "coquette" {
     /*
      * Public interface
      */
-    draw(ctx: CanvasRenderingContext2D): void;
-    update(dt: number): void;
-    collision(other: Entity<any>): void;
+    draw?(ctx: CanvasRenderingContext2D): void;
+    update?(dt: number): void;
+    collision?(other: Entity): void;
+  }
+
+  interface EntityClass<T, P> {
+    // TODO: This isn't getting type-checked properly and I don't know why.
+    new(game: Game, settings: P): T;
   }
 
   // This bit is really fucking weird and I kinda don't understand it.
@@ -39,33 +63,74 @@ declare module "coquette" {
 
   type ClassType<P, T, C> = C & (new(game: Game, settings: P) => T);
 
-  interface EntityClass<T, P> {
-    new(game: Game, settings: P): T;
-  }
-
   interface Entities {
+    /**
+     * Creates an entity given its constructor and settings.
+     */
     create<P, T, C extends EntityClass<T, P>>(
       ctor: ClassType<P, T, C>, settings: P): T;
-    destroy(entity: Entity<any>): void;
 
-    all(): Entity<any>[];
+    /**
+     * Destroys the entity passed to it.
+     */
+    destroy(entity: Entity): void;
+
+    /**
+     * Returns all entities.
+     */
+    all(): Entity[];
+
+    /**
+     * Returns all entities of a given type.
+     */
     all<T, P>(ctor: EntityClass<T, P>): T[];
   }
 
   interface Inputter {
-    isDown(keyCode: number): boolean;
-    isPressed(keyCode: number): boolean;
+    /**
+     * Returns whether a given key code or mouse button is down.
+     *
+     * See inputter.js for predefined constants for keys/mouse buttons.
+     */
+    isDown(keyCode: number | string): boolean;
+
+    /**
+     * Returns whether a given key code or mouse button has been pressed.
+     *
+     * See inputter.js for predefined constants for keys/mouse buttons.
+     */
+    isPressed(keyCode: number | string): boolean;
+
+    /**
+     * Register a callback to be called with new pointer coordinates when the mouse moves.
+     */
     bindMouseMove(cb: (position: Coordinates) => void): void;
+
+    /**
+     * Get the current mouse position.
+     */
     getMousePosition(): Coordinates;
   }
 
   interface Renderer {
+    /**
+     * Get the current canvas context.
+     */
     getCtx(): CanvasRenderingContext2D;
+
+    /**
+     * Set the view's center to translate the canvas by.
+     */
     setViewCenter(Coordinates): void;
   }
 
+  /**
+   * The Coquette class, holding a Coquette instances's internal state and modules.
+   */
   export default class Coquette {
-    constructor(game: Game, canvasId: string, width: number, height: number, backgroundColor: string);
+    constructor(
+      game: Game, canvasId: string, width: number, height: number, backgroundColor: string,
+      autoFocus?: boolean);
 
     entities: Entities;
     inputter: Inputter;
