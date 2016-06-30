@@ -15,3 +15,5 @@ execSync(sshCmd, {
 execSync(scpCmd, {
   stdio: 'inherit',
 });
+
+console.log(`\n*** deployed to ${secret.path}`)
