@@ -2,18 +2,19 @@ import {Entity, Coordinates} from 'coquette';
 
 import Game from '../Game';
 
+import {
+  width,
+} from '../constants';
+
 interface Settings {
   x: number;
   y: number;
 }
 
-export default class Block implements Entity {
+export default class GroundPlane implements Entity {
   game: Game;
   center: Coordinates;
-
-  // todo: is there a better way to do this?
-  static size = {x: 10, y: 10};
-  size = Block.size;
+  size = {x: width, y: 10};
 
   constructor(game: Game, settings: Settings) {
     this.game = game;
@@ -26,7 +27,7 @@ export default class Block implements Entity {
       this.center.x - this.size.x / 2,
       this.center.y - this.size.y / 2,
       this.size.x,
-      this.size.y
+      3
     );
   }
 }
