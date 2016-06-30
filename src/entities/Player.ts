@@ -92,7 +92,13 @@ export default class Player implements Coq.Entity {
       } else {
         // Self is colliding with the block from the left
         if (intersect.fromLeft) {
-          this.game.died();
+
+          // this is a hack to ensure that, in certain cases where the player is sliding along a
+          // contiguous region of blocks, that this collision type isn't erroneously triggered on
+          // the edge of a block
+          if (intersect.w > 0.5) {
+            this.game.died();
+          }
 
         // Self is colliding with the block from the right
         } else {
