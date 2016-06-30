@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import Game from '../Game';
 import Block from './Block';
-import Timer from '../Timer';
+import Timer from '../lib/Timer';
 
-import {randInt} from '../math';
+import {randInt} from '../lib/math';
 
 interface Settings {
   bottomEdge: number;

@@ -4,7 +4,7 @@ import Game from '../Game';
 import Block from './Block';
 import GroundPlane from './GroundPlane';
 
-import {rectangleIntersection} from '../math';
+import {rectangleIntersection} from '../lib/math';
 
 import {width} from '../constants';
 
