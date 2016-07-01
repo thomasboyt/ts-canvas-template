@@ -24,6 +24,9 @@ export default class Game implements Coq.Game {
   groundPlane: GroundPlane;
   blockManager: BlockManager;
 
+  prevJumps: number[] = [];
+  curJumps: number[] = [];
+
   constructor() {
     this.c = new Coquette(this, 'canvas', width, height, 'black');
   }
@@ -56,7 +59,7 @@ export default class Game implements Coq.Game {
     this.nextStep();
   }
 
-  nextStep() {
+  private nextStep() {
     const wireEdge = this.groundPlane.center.y - this.groundPlane.size.y / 2;
 
     this.player = this.c.entities.create(Player, {
@@ -67,12 +70,22 @@ export default class Game implements Coq.Game {
     this.blockManager.addBlock();
   }
 
-  died() {
-    this.blockManager.removeBlock();
-    this.finished();
+  reachedEnd() {
+    this.audioManager.play('wah');
+
+    this.prevJumps = this.curJumps;
+
+    this.finishedStep();
   }
 
-  finished() {
+  died() {
+    this.blockManager.removeBlock();
+    this.finishedStep();
+  }
+
+  private finishedStep() {
+    this.curJumps = [];
+
     this.c.entities.destroy(this.player);
 
     if (this.blockManager.completed) {

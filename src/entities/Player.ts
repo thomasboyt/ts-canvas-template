@@ -44,8 +44,7 @@ export default class Player implements Coq.Entity {
 
   update(dt: number) {
     if (this.center.x - this.size.x / 2 > width) {
-      this.game.audioManager.play('wah');
-      this.game.finished();
+      this.game.reachedEnd();
       return;
     }
 
@@ -57,6 +56,7 @@ export default class Player implements Coq.Entity {
 
     if (this.game.c.inputter.isPressed(this.game.c.inputter['SPACE']) && this.grounded) {
       this.vec.y = -jumpSpeed;
+      this.game.curJumps.push(this.center.x);
     }
 
     this.vec.x = speed * step;

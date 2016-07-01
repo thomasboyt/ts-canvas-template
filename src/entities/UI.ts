@@ -20,5 +20,20 @@ export default class UI implements Coq.Entity {
     ctx.textAlign = 'center';
 
     ctx.fillText(`${steps} / ${max}`, width / 2, height - 25);
+
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+
+    for (let jumpX of this.game.prevJumps) {
+      // draw up arrow under wireEdge
+      const wireEdge = height / 2;
+
+      ctx.beginPath();
+      ctx.moveTo(jumpX - 5, wireEdge + 7);
+      ctx.lineTo(jumpX, wireEdge + 2);
+      ctx.lineTo(jumpX + 5, wireEdge + 7);
+      ctx.stroke();
+      ctx.closePath();
+    }
   }
 }
