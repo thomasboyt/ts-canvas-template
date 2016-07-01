@@ -35,39 +35,11 @@ const colors = [
   'violet',
 ];
 
-export default class BlockManager {
-  game: Game;
-  blocks: Block[] = [];
-
-  bottomEdge: number;
-  unfilledXValues: number[];
-
+class CompletedBlockAnimation {
   animTimer: Timer = new Timer(25);
   animColors: string[] = colors;
 
-  constructor(game: Game, settings: Settings) {
-    this.game = game;
-
-    this.bottomEdge = settings.bottomEdge;
-  }
-
-  reset() {
-    this.blocks.forEach((block) => this.game.c.entities.destroy(block));
-    this.blocks = [];
-    this.unfilledXValues = _.range(150, 650, 10);
-  }
-
-  /*
-   * Todo: when I'm less sleepy, figure out how to break this out into something that doesn't
-   * pollute this class with animation state.
-   */
-
-  public get completed() {
-    return this.unfilledXValues.length === 0;
-  }
-
-  getCompletedAnimationColorForX(x: number): string {
-    // cycle colors for each x
+  getColorForX(x: number): string {
     const colorIdx = ((x - 150) / 10) % this.animColors.length;
     return this.animColors[colorIdx];
   }
@@ -79,6 +51,36 @@ export default class BlockManager {
       this.animColors = cycle(this.animColors);
       this.animTimer.reset();
     }
+  }
+}
+
+export default class BlockManager {
+  game: Game;
+  blocks: Block[] = [];
+
+  bottomEdge: number;
+  unfilledXValues: number[];
+
+  completedAnimation: CompletedBlockAnimation = new CompletedBlockAnimation();
+
+  constructor(game: Game, settings: Settings) {
+    this.game = game;
+
+    this.bottomEdge = settings.bottomEdge;
+  }
+
+  update(dt: number) {
+    this.completedAnimation.update(dt);
+  }
+
+  reset() {
+    this.blocks.forEach((block) => this.game.c.entities.destroy(block));
+    this.blocks = [];
+    this.unfilledXValues = _.range(150, 650, 10);
+  }
+
+  public get completed() {
+    return this.unfilledXValues.length === 0;
   }
 
   addBlock() {

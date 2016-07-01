@@ -22,7 +22,7 @@ export default class Block implements Entity {
 
   draw(ctx: CanvasRenderingContext2D) {
     if (this.game.blockManager.completed) {
-      ctx.fillStyle = this.game.blockManager.getCompletedAnimationColorForX(this.center.x);
+      ctx.fillStyle = this.game.blockManager.completedAnimation.getColorForX(this.center.x);
     } else {
       ctx.fillStyle = 'white';
     }
