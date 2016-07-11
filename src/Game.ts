@@ -59,17 +59,6 @@ export default class Game implements Coq.Game {
     this.nextStep();
   }
 
-  private nextStep() {
-    const wireEdge = this.groundPlane.center.y - this.groundPlane.size.y / 2;
-
-    this.player = this.c.entities.create(Player, {
-      x: -Player.size.x / 2,
-      y: wireEdge - Player.size.y / 2,
-    });
-
-    this.blockManager.addBlock();
-  }
-
   reachedEnd() {
     this.audioManager.play('wah');
 
@@ -94,4 +83,16 @@ export default class Game implements Coq.Game {
 
     this.nextStep();
   }
+
+  private nextStep() {
+    const wireEdge = this.groundPlane.center.y - this.groundPlane.size.y / 2;
+
+    this.player = this.c.entities.create(Player, {
+      x: -Player.size.x / 2,
+      y: wireEdge - Player.size.y / 2,
+    });
+
+    this.blockManager.addBlock();
+  }
+
 }

@@ -8,7 +8,8 @@
     "sourceMap": true,
     "noEmit": true,
     "moduleResolution": "node",
-    "jsx": "react"
+    "jsx": "react",
+    "strictNullChecks": true
   },
   "compileOnSave": false,
   "exclude": [

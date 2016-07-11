@@ -11,7 +11,7 @@ interface Settings {
 }
 
 // get a random item, remove it from the array, and return it, mutating the original array
-function samplePop<T>(arr: T[]): T {
+function samplePop<T>(arr: T[]): T | undefined {
   if (arr.length === 0) {
     return undefined;
   }
@@ -99,7 +99,7 @@ export default class BlockManager {
 
   removeBlock() {
     const block = this.blocks.pop();
-    this.unfilledXValues.push(block.center.x);
-    this.game.c.entities.destroy(block);
+    this.unfilledXValues.push(block!.center.x);
+    this.game.c.entities.destroy(block!);
   }
 }

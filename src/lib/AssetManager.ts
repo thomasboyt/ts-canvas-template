@@ -55,15 +55,19 @@ class AssetManager {
         }
       };
 
-      _.each(this._assetCfg.images, (src, name) => {
+      for (let name of Object.keys(this._assetCfg.images)) {
+        const src = this._assetCfg.images[name];
+
         const img = new Image();
         img.onload = onAssetLoaded;
         img.src = src;
 
         this.assets.images[name] = img;
-      });
+      }
 
-      _.each(this._assetCfg.audio, (src, name) => {
+      for (let name of Object.keys(this._assetCfg.audio)) {
+        const src = this._assetCfg.audio[name];
+
         const xhr = new XMLHttpRequest();
         xhr.open('GET', src, true);
         xhr.responseType = 'arraybuffer';
@@ -76,7 +80,7 @@ class AssetManager {
         };
 
         xhr.send();
-      });
+      }
     });
   }
 

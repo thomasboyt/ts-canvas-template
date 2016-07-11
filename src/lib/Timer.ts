@@ -1,5 +1,5 @@
 export default class Timer {
-  expireIn: number;
+  expireIn: number | null;
   _elapsed: number;
 
   constructor(expireIn?: number) {

@@ -97,7 +97,7 @@ export default class Player implements Coq.Entity {
           // this is a hack to ensure that, in certain cases where the player is sliding along a
           // contiguous region of blocks, that this collision type isn't erroneously triggered on
           // the edge of a block
-          if (intersect.w > 0.5) {
+          if (intersect.w > 1) {
             this.game.died();
           }
 
