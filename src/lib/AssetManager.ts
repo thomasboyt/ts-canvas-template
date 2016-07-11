@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 type AssetMap = {
   images: {
     [key:string]: HTMLImageElement;
@@ -36,7 +34,11 @@ class AssetManager {
 
     this.audioCtx = audioCtx;
 
-    this.numTotal = _.keys(this._assetCfg.images).length + _.keys(this._assetCfg.audio).length;
+    this.numTotal = (
+      Object.keys(this._assetCfg.images).length +
+      Object.keys(this._assetCfg.audio).length
+    );
+
     this.numLoaded = 0;
   }
 
