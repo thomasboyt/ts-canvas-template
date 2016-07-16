@@ -1,4 +1,4 @@
-import {Entity, Coordinates} from 'coquette';
+import {Entity, Coordinates} from 'pearl';
 
 import Game from '../Game';
 
@@ -11,13 +11,11 @@ interface Settings {
   y: number;
 }
 
-export default class GroundPlane implements Entity {
-  game: Game;
+export default class GroundPlane extends Entity<Settings> {
   center: Coordinates;
   size: Coordinates = {x: width, y: 10};
 
-  constructor(game: Game, settings: Settings) {
-    this.game = game;
+  init(settings: Settings) {
     this.center = {x: settings.x, y: settings.y};
   }
 

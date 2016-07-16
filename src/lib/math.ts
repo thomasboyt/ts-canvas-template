@@ -1,4 +1,4 @@
-import {Coordinates} from 'coquette';
+import {Coordinates} from 'pearl';
 
 export function max(x: number, y: number): number {
   return x > y ? x : y;

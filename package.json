@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
-    "coquette": "git://github.com/thomasboyt/coquette#commonjs",
+    "pearl": "git://github.com/thomasboyt/pearl#d87489afa639ea3a0bec78df45a46f977d59185d",
     "lodash": "^4.13.1",
     "query-string": "^4.2.2"
   }

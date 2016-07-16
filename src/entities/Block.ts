@@ -1,4 +1,4 @@
-import {Entity, Coordinates} from 'coquette';
+import {Entity, Coordinates} from 'pearl';
 
 import Game from '../Game';
 
@@ -7,7 +7,7 @@ interface Settings {
   y: number;
 }
 
-export default class Block implements Entity {
+export default class Block extends Entity<Settings> {
   game: Game;
   center: Coordinates;
 
@@ -15,8 +15,7 @@ export default class Block implements Entity {
   static size: Coordinates = {x: 10, y: 10};
   size: Coordinates = Block.size;
 
-  constructor(game: Game, settings: Settings) {
-    this.game = game;
+  init(settings: Settings) {
     this.center = {x: settings.x, y: settings.y};
   }
 

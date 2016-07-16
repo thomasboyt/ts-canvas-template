@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import Game from '../Game';
 import Block from './Block';
-import Timer from '../lib/Timer';
 
 import {randInt} from '../lib/math';
 
@@ -36,20 +35,24 @@ const colors = [
 ];
 
 class CompletedBlockAnimation {
-  animTimer: Timer = new Timer(25);
+  // animTimer: Timer = new Timer(25);
   animColors: string[] = colors;
+  game: Game;
+
+  constructor(game: Game) {
+    this.game = game;
+    this.game.async.schedule(this._cycle.bind(this));
+  }
 
   getColorForX(x: number): string {
     const colorIdx = ((x - 150) / 10) % this.animColors.length;
     return this.animColors[colorIdx];
   }
 
-  update(dt: number) {
-    this.animTimer.update(dt);
-
-    if (this.animTimer.expired) {
+  private *_cycle() {
+    while (true) {
+      yield this.game.async.waitMs(25);
       this.animColors = cycle(this.animColors);
-      this.animTimer.reset();
     }
   }
 }
@@ -60,21 +63,18 @@ export default class BlockManager {
 
   bottomEdge: number;
   unfilledXValues: number[];
-
-  completedAnimation: CompletedBlockAnimation = new CompletedBlockAnimation();
+  completedAnimation: CompletedBlockAnimation;
 
   constructor(game: Game, settings: Settings) {
     this.game = game;
 
     this.bottomEdge = settings.bottomEdge;
-  }
 
-  update(dt: number) {
-    this.completedAnimation.update(dt);
+    this.completedAnimation = new CompletedBlockAnimation(game);
   }
 
   reset() {
-    this.blocks.forEach((block) => this.game.c.entities.destroy(block));
+    this.blocks.forEach((block) => this.game.entities.destroy(block));
     this.blocks = [];
     this.unfilledXValues = _.range(150, 650, 10);
   }
@@ -93,13 +93,14 @@ export default class BlockManager {
 
     const y = this.bottomEdge - Block.size.y / 2;
 
-    const block = this.game.c.entities.create(Block, {x, y});
+    const block = this.game.entities.add(new Block(), {x, y});
+
     this.blocks.push(block);
   }
 
   removeBlock() {
     const block = this.blocks.pop();
     this.unfilledXValues.push(block!.center.x);
-    this.game.c.entities.destroy(block!);
+    this.game.entities.destroy(block!);
   }
 }

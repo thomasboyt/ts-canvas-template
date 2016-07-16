@@ -1,4 +1,4 @@
-import * as Coq from 'coquette';
+import * as Pearl from 'pearl';
 
 import Game from '../Game';
 import Block from './Block';
@@ -17,18 +17,17 @@ const gravityAccel = 1;
 const speed = 10;
 const jumpSpeed = 5;
 
-export default class Player implements Coq.Entity {
+export default class Player extends Pearl.Entity<Settings> {
   game: Game;
-  center: Coq.Coordinates;
+  center: Pearl.Coordinates;
 
-  static size: Coq.Coordinates = {x: 10, y: 10};
-  size: Coq.Coordinates = Block.size;
+  static size: Pearl.Coordinates = {x: 10, y: 10};
+  size: Pearl.Coordinates = Block.size;
 
-  vec: Coq.Coordinates = {x: 0, y: 0};
+  vec: Pearl.Coordinates = {x: 0, y: 0};
   grounded: boolean = true;
 
-  constructor(game: Game, settings: Settings) {
-    this.game = game;
+  init(settings: Settings) {
     this.center = {x: settings.x, y: settings.y};
   }
 
@@ -54,7 +53,7 @@ export default class Player implements Coq.Entity {
       this.grounded = false;
     }
 
-    if (this.game.c.inputter.isPressed(this.game.c.inputter['SPACE']) && this.grounded) {
+    if (this.game.inputter.isKeyPressed(Pearl.Keys.space) && this.grounded) {
       this.vec.y = -jumpSpeed;
       this.game.curJumps.push(this.center.x);
     }
@@ -66,7 +65,7 @@ export default class Player implements Coq.Entity {
     this.center.y += this.vec.y;
   }
 
-  collision(other: Coq.Entity) {
+  collision(other: Pearl.Entity<any>) {
     if (other instanceof Block) {
       const intersect = rectangleIntersection(this, other);
 

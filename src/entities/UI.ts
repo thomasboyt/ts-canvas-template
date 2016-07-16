@@ -1,15 +1,11 @@
-import * as Coq from 'coquette';
+import * as Pearl from 'pearl';
 
 import Game from '../Game';
 
 import {width, height} from '../constants';
 
-export default class UI implements Coq.Entity {
+export default class UI extends Pearl.Entity<null> {
   game: Game;
-
-  constructor(game: Game) {
-    this.game = game;
-  }
 
   draw(ctx: CanvasRenderingContext2D) {
     const steps = this.game.blockManager.blocks.length;
